@@ -15,6 +15,7 @@ plugins {
 
 group = properties("pluginGroup").get()
 version = properties("pluginVersion").get()
+sourceSets["main"].java.srcDirs("src/main/gen")
 
 // Configure project's dependencies
 repositories {
@@ -23,7 +24,7 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
-//    implementation(libs.exampleLibrary)
+   // testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
 // Set the JVM language level used to build the project.
@@ -118,4 +119,10 @@ tasks {
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels = properties("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
+
+//    test {
+//        useJUnitPlatform()
+//        testLogging.showStandardStreams = true
+//        testClassesDirs = files("src/test/kotlin")
+//    }
 }

@@ -1,18 +1,83 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<!--
+Copyright 2024 JetBrains s.r.o. and contributors.
+Use of this source code is governed by the Apache 2.0 license.
+-->
 <idea-plugin>
-    <id>org.jetbrains.plugins.template</id>
-    <name>IntelliJ Platform Plugin Template</name>
+    <id>com.github.mkartashev.hserr</id>
+    <name>HotSpot Crash Examiner</name>
     <vendor>JetBrains</vendor>
+    <description>
+        Provides IDE capabilities for examining HotSpot JVM fatal error log files (hs_err_pid.log).
+    </description>
 
+    <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.platform</depends>
+    <depends optional="true" config-file="java-specific.xml">com.intellij.java</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <resource-bundle>messages.HsErrBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="org.jetbrains.plugins.template.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <fileType
+                name="HsErr"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrFileType"
+                fieldName="INSTANCE"
+                language="HotSpot Fatal Error Log"
+                patterns="java_error_in_*.log;hs_err_*.log;crash*.txt"/>
+        <lang.parserDefinition
+                language="HotSpot Fatal Error Log"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="HotSpot Fatal Error Log"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrSyntaxHighlighterFactory" />
+        <editorNotificationProvider
+                implementation="com.github.mkartashev.hserr.file.LargeFileNotificationProvider"/>
+        <notificationGroup id="HsErr" displayType="BALLOON" isLogByDefault="true" />
+        <spellchecker.support
+                language="HotSpot Fatal Error Log"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrSpellcheckingStrategy"/>
+        <applicationService
+                serviceImplementation="com.github.mkartashev.hserr.settings.SettingsStore"/>
+        <applicationConfigurable
+                displayName="HotSpot Crash Examiner"
+                instance="com.github.mkartashev.hserr.settings.SettingsConfigurable"
+                id="HsErrConfigurable"/>
+        <lang.foldingBuilder
+                language="HotSpot Fatal Error Log"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrFoldingBuilder"/>
+        <lang.psiStructureViewFactory
+                language="HotSpot Fatal Error Log"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrStructureViewFactory"/>
+        <navbar implementation="com.github.mkartashev.hserr.language.HsErrStructureAwareNavBar"/>
+        <toolWindow
+                factoryClass="com.github.mkartashev.hserr.toolwindow.HsErrToolWindowFactory"
+                icon="com.github.mkartashev.hserr.HsErrIcons.TOOLWINDOW"
+                id="HsErrToolWindow"/>
+        <lang.documentationProvider
+                language="HotSpot Fatal Error Log"
+                implementationClass="com.github.mkartashev.hserr.language.HsErrDocumentationProvider"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="org.jetbrains.plugins.template.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+    <actions>
+        <action
+                id="HsErrSelectAddrAction"
+                class="com.github.mkartashev.hserr.actions.FindAddrAction"
+                text="Find Address"
+                icon="AllIcons.Actions.ShortcutFilter"
+                description="Find and select locations near this address">
+            <add-to-group group-id="EditorPopupMenu" anchor="last" />
+        </action>
+        <action
+                id="HsErrSettingsAction"
+                class="com.github.mkartashev.hserr.actions.HsErrToolWindowSettingsAction"
+                text="Settings..."
+                icon="AllIcons.General.Settings"
+                description="Show plugin settings">
+        </action>
+        <action
+                id="HsErrRefreshAction"
+                class="com.github.mkartashev.hserr.actions.HsErrToolWindowRefreshAction"
+                text="Refresh"
+                icon="AllIcons.Actions.Refresh"
+                description="Update from the editor's contents">
+        </action>
+    </actions>
 </idea-plugin>

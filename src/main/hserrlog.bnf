@@ -1,0 +1,47 @@
+// Copyright 2024 JetBrains s.r.o. and contributors.
+// Use of this source code is governed by the Apache 2.0 license.
+
+{
+  parserClass="com.github.mkartashev.hserr.language.HsErrParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="HsErr"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.mkartashev.hserr.language.psi"
+  psiImplPackage="com.github.mkartashev.hserr.language.psi.impl"
+
+  elementTypeHolderClass="com.github.mkartashev.hserr.language.psi.HsErrTypes"
+  elementTypeClass="com.github.mkartashev.hserr.language.HsErrElementType"
+  tokenTypeClass="com.github.mkartashev.hserr.language.psi.HsErrTokenType"
+
+  psiImplUtilClass="com.github.mkartashev.hserr.language.psi.impl.HsErrPsiImplUtil"
+}
+
+hserrFile ::= intro section* all_*
+
+private all_ ::= (WHITE_SPACE|NUMBER|WORD|STRING|PUNCT|SUBTITLE|KEYWORD|SIGNAL|URL|IDENTIFIER|REGISTER)
+
+intro ::= content*
+{
+    methods=[getName getPresentation]
+}
+
+section ::= SECTION_HDR (subsection | content | )*
+{
+    methods=[getName getPresentation]
+}
+
+subsection ::= SUBTITLE [content]
+{
+    methods=[getName getPresentation]
+}
+
+private content ::= (token | WHITE_SPACE)+
+
+token ::= (NUMBER|WORD|STRING|PUNCT|KEYWORD|SIGNAL|URL|IDENTIFIER|REGISTER)
+{
+  mixin="com.github.mkartashev.hserr.language.psi.impl.HsErrNamedElementImpl"
+  implements="com.github.mkartashev.hserr.language.psi.HsErrNamedElement"
+  methods=[setName getNameIdentifier]
+}
