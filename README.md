@@ -6,8 +6,8 @@ HotSpot Crash Examiner
 [![Official JetBrains Project][jb-official-svg]][jb-official]
 [![Contributions welcome][contributions-welcome-svg]][contributions-welcome]
 ![Build](https://github.com/JetBrains/HotSpotCrashExaminerPlugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/24675-hotspot-crash-examiner.svg)](https://plugins.jetbrains.com/plugin/24675-hotspot-crash-examiner)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/24675-hotspot-crash-examiner.svg)](https://plugins.jetbrains.com/plugin/24675-hotspot-crash-examiner)
 
 <!-- TOC -->
 * [HotSpot Crash Examiner](#hotspot-crash-examiner)
@@ -103,8 +103,8 @@ requires Java support in the IDE and the corresponding project with the classes 
 ## Resources
 
 * [Java Platform, Standard Edition Troubleshooting Guide. A Fatal Error Log](https://docs.oracle.com/javase/10/troubleshoot/fatal-error-log.htm)
-* [Youtube - Volker Simonis — Analyzing HotSpot Crashes](https://www.youtube.com/watch?v=buPX_nj40Tg&t=3078s)
-* [Youtube - JVM Crash Dump Analysis](https://www.youtube.com/watch?v=jd6dJa7tSNU)
+* [YouTube — Volker Simonis — Analyzing HotSpot Crashes](https://www.youtube.com/watch?v=buPX_nj40Tg&t=3078s)
+* [YouTube — JVM Crash Dump Analysis](https://www.youtube.com/watch?v=jd6dJa7tSNU)
 
 <!-- Badges -->
 [jb-official]: https://github.com/JetBrains#jetbrains-on-github
