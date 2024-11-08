@@ -3,11 +3,8 @@
 
 package com.github.mkartashev.hserr
 
-import com.github.mkartashev.hserr.language.psi.*
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.util.IconLoader
-import com.intellij.psi.PsiElement
-import javax.swing.Icon
 
 object HsErrIcons {
     @JvmField

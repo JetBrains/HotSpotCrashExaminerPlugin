@@ -193,8 +193,9 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
                 sb.append(
                     """<p>The name of the thread that crashed (<code>${thread.name}<code>)
                         | implies a problem in the garbage collector. This may be caused
-                        |  either by a bug in the JVM or a memory corruption
-                        |  (which may have been caused by faulty memory chip or overclocking).</p>""".trimMargin()
+                        | either by a bug in the JVM or a memory corruption
+                        | (which may have been caused by a faulty memory chip,
+                        | overclocking, or outdated firmware).</p>""".trimMargin()
                 )
             }
         }
