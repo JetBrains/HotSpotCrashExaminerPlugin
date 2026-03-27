@@ -77,7 +77,7 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
 
                     "BUS_ADRERR" -> sb.append(
                         "; sub-code suggests nonexistent physical address," +
-                                " for example <code>mmap</code>'ed file from network has disappeared"
+                                " for example a <code>mmap</code>'ed file from network has disappeared"
                     )
                 }
                 sb.append(".</p>")
@@ -86,12 +86,12 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
             "SIGILL" -> {
                 sb.append(
                     "<p>A crash by <code>SIGILL</code> means an illegal instruction at PC. Could be caused" +
-                            "by incorrect code generation or, more likely, by a jump/call to a wrong address.</p>"
+                            " by incorrect code generation or, more likely, by a jump/call to a wrong address.</p>"
                 )
             }
 
             "SIGFPE" -> {
-                sb.append("<p>A crash by <code>SIGFPE</code> means floating-point error by an instruction at address; ")
+                sb.append("<p>A crash by <code>SIGFPE</code> means a floating-point error by an instruction at address; ")
                 when (signal.signalCode) {
                     "FPE_INTDIV" -> sb.append("sub-code indicates integer divide by zero")
                     "FPE_FLTDIV" -> sb.append("sub-code indicates floating-point divide by zero")
@@ -102,7 +102,7 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
 
                     else -> sb.append(
                         "FPE_INTDIV - integer divide by zero, FPE_FLTDIV - floating-point divide by zero" +
-                                "FPE_FLTINV - floating-point invalid operation (like <code>sqrt(-1)</code>)"
+                                " FPE_FLTINV - floating-point invalid operation (like <code>sqrt(-1)</code>)"
                     )
                 }
                 sb.append(".</p>")
@@ -112,8 +112,8 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
         if (arch?.family == ArchitectureArtifact.Family.INTEL && addr?.isMalformedOnX64 == true) {
             sb.append(
                 "<p>The crash address is malformed and will likely look like <code>0x0</code> in the log." +
-                        "Consult the PC register for the correct value. This is likely the result of an indirect call" +
-                        "to a wrong address.</p>"
+                        " Consult the PC register for the correct value. This is likely the result of an indirect call" +
+                        " to a wrong address.</p>"
             )
         }
 
@@ -124,7 +124,7 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
                         " (<code>${header.assertion}</code>)."
             )
             if (header.sourceLocation.length > 4) {
-                sb.append("Check <code>${header.sourceLocation}</code> to find out more.")
+                sb.append(" Check <code>${header.sourceLocation}</code> to find out more.")
             }
             sb.append("</p>")
         } else if (deadByOOME) {
@@ -150,7 +150,7 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
 
         if (system != null && system.freePercentage < 2) {
             sb.append("<p>The host system is also nearly out of free physical memory (${system.freePercentage}% left)")
-            if (os?.isWindows() == false && system.swapTotal <= 0u) sb.append("Also, there is no swap allocated.")
+            if (os?.isWindows() == false && system.swapTotal <= 0u) sb.append(" Also, there is no swap allocated.")
             sb.append("</p>")
         }
 
@@ -159,15 +159,15 @@ class ExecutiveSummaryArtifact(log: HsErrLog, summary: String) : Artifact(log) {
                 sb.append(
                     """<p>JVM crashed compiling some Java bytecode into the native code;
                         | this may be a bug in the JVM itself, or a result of memory
-                        |  corruption caused either by the program itself
-                        |   or by a hardware malfunction.</p>""".trimMargin()
+                        | corruption caused either by the program itself
+                        | or by a hardware malfunction.</p>""".trimMargin()
                 )
                 if (thread.methodBeingCompiled.length > 3) {
                     sb.append(
                         """<p>The method that was being compiled: <code>${thread.methodBeingCompiled}</code>.
                             | If there are many similar reports with the same method name,
-                            |  it can be excluded from compilation with
-                            |   <code>-XX:CompileCommand=exclude,class/name,method_name</code>.</p>""".trimMargin()
+                            | it can be excluded from compilation with
+                            | <code>-XX:CompileCommand=exclude,class/name,method_name</code>.</p>""".trimMargin()
                     )
                 }
             } else if (thread.name in setOf(

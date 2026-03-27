@@ -1,6 +1,9 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
 # HotSpot Crash Examiner Changelog
+## [0.0.4]
+- Fixed some misprints in the crash description
+
 ## [0.0.3]
 - Fixed the tool window icons to follow the theme
 
